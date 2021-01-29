@@ -5,7 +5,6 @@ const Owner = db.owner;
 const Op = db.Sequelize.Op;
 
 
-// Create and Save a new user
 exports.create = (req, res) => {
     if (!req.body) {
         res.status(400).send({ code: 400, message: "entire body cannot be empty, firstname,lastname,phone are required field" });
@@ -23,19 +22,7 @@ exports.create = (req, res) => {
         res.status(400).send({ code: 400, message: "phone is required" });
         return;
     }
-    // if (req.body.isOwner) {
-    //     const ownerObj = {
-    //         noofHouse: req.body.noofHouse,
-    //         location: req.body.location,
-    //         userId: 
-    //     }
-    //     Owner.create(ownerObj).then(data => {
-    //         res.status(200).send({ code: 200, message: data })
-    //     }).catch(err => {
-    //         res.status(500).send({ code: 500, message: err })
-    //     })
 
-    // }
     const userobj = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -54,15 +41,9 @@ exports.create = (req, res) => {
     })
 };
 
-// Retrieve all users from the database.
 exports.findAll = (req, res) => {
     user.findAll().then(data => {
         var dataList = data;
-        // var newList;
-        // dataList.forEach(dataelement => {
-        //     var userobj = { firstName: dataelement.firstName, lastName: dataelement.lastName, phone: dataelement.phone, email: dataelement.email };
-        //     newList.add(userobj);
-        // })
         res.status(200).send({
             code: 200,
             message: dataList
@@ -72,7 +53,6 @@ exports.findAll = (req, res) => {
     })
 }
 
-// Find a single user with an id
 exports.findOne = (req, res) => {
     const id = req.params.userId;
     User.findByPk(id)
@@ -93,11 +73,10 @@ exports.findOne = (req, res) => {
         });
 };
 
-// Update a user by the id in the request
+
 exports.update = (req, res) => {
     const id = req.params.userId;
     console.log(req.params.userId);
-    // console.log(id.toString() + "????");
     User.update(req.body, {
             where: { userId: id }
         })
@@ -119,7 +98,6 @@ exports.update = (req, res) => {
         });
 };
 
-// Delete a user with the specified id in the request
 exports.delete = (req, res) => {
 
 };
