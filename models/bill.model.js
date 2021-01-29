@@ -8,6 +8,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DATEONLY,
             allowNull: false,
         },
+        totalAmount: {
+            type: Sequelize.INTEGER,
+        }
 
     });
 

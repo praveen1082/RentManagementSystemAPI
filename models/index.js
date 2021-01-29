@@ -21,6 +21,7 @@ db.user = require("./user.model.js")(sequelize, Sequelize);
 db.owner = require('./owner.model')(sequelize, Sequelize);
 db.home = require('./home.model')(sequelize, Sequelize);
 db.renter = require('./renter.model')(sequelize, Sequelize);
+db.bill = require('./bill.model')(sequelize, Sequelize)
 db.owner.hasMany(db.home, { as: "home" });
 db.home.belongsTo(db.owner, {
     foreignKey: "ownerId",
@@ -40,6 +41,10 @@ db.user.hasMany(db.owner, { as: "owner" });
 db.owner.belongsTo(db.user, {
     foreignKey: "userId",
     as: "user"
+})
+db.bill.belongsTo(db.renter, {
+    foreignKey: 'renterId',
+    as: 'renter'
 })
 
 module.exports = db;
