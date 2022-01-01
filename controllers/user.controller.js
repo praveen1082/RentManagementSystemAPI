@@ -21,6 +21,14 @@ exports.create = (req, res) => {
         res.status(400).send({ code: 400, message: "phone is required" });
         return;
     }
+    if (!req.body.password) {
+        return res.status(400).send({
+            code: 400,
+            response: {
+                message: "Password field is required"
+            }
+        })
+    }
 
     const userobj = {
         firstName: req.body.firstName,
@@ -29,7 +37,8 @@ exports.create = (req, res) => {
         email: req.body.email,
         image: req.body.image,
         isOwner: false,
-        gender: req.body.gender
+        gender: req.body.gender,
+        password: req.body.password,
 
     };
     User.create(userobj).then(data => {
