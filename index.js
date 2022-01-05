@@ -22,6 +22,7 @@ require("./routes/user.routes")(app);
 require("./routes/owner.route")(app);
 require("./routes/file.route")(app);
 require("./routes/home.route")(app);
+require('./routes/renter.route')(app);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);

@@ -22,7 +22,7 @@ exports.create = (req, res) => {
     if (!req.body.rentAmt) {
         return res.status(400).send({ code: 400, response: { message: "rentAmt per month is required" } })
     }
-    if (!electricityPresentMeter) {
+    if (!req.body.electricityPresentMeter) {
         return res.status(400).senf({ code: 400, response: { message: "please enter present electricity meter" } })
     }
 

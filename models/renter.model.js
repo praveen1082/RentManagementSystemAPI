@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             default: 0,
         },
-        elecctricityPresentMeter: {
+        electricityPresentMeter: {
             type: Sequelize.INTEGER,
             default: 1,
         },

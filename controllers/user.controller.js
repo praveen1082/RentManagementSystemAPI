@@ -47,20 +47,10 @@ exports.create = (req, res) => {
 
     };
     User.create(userobj).then(data => {
-        console.log(data.id)
-            // if (userobj.isOwner) {
-            //     const ownerObj = {
-            //         noofHouse: req.body.noofHouse,
-            //         location: req.body.location,
-            //         userId: data.userId,
-            //     }
-            //     Owner.create(ownerObj).then(ownerdata => {
-            //         res.status(200).send({ code: 200, message: { "location": ownerdata.location, "isOwner": data.isOwner, "firstName": data.firstName, "email": data.email, "phone": data.phone } })
-            //     })
-            // }
-        res.status(200).send({ code: 200, message: "Successfully created data", data: { userId: data.id, email: data.email } });
+
+        res.status(200).send({ code: 200, response: { message: "Successfully created user", data: data } });
     }).catch(err => {
-        res.status(500).send({ code: 500, message: err });
+        res.status(500).send({ code: 500, response: { message: "Error while creating user", data: err } });
     })
 };
 
