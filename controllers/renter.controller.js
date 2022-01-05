@@ -34,8 +34,6 @@ exports.create = (req, res) => {
         homeId: req.body.homeId,
         waterAmt: req.body.waterAmt != null ? req.body.waterAmt : 0,
         roomType: req.body.roomType != null ? req.body.roomType : "Not Specified",
-        dateofEntry: req.body.dateofEntry != null ? req.body.dateofEntry : Date.now(),
-        dateOfExit: req.body.dateofExit,
     };
     Renter.create(renterObj).then(renterdata => {
         User.findByPk(req.body.userId).then(userdata => {
