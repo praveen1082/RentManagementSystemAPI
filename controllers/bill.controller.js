@@ -48,4 +48,36 @@ exports.create = (req, res) => {
     }).catch(err => {
         return res.status(500).send({ code: 500, response: { message: "error while creating bill", data: err } })
     })
+    exports.findOne = (req, res) => {
+        const id = req.params.renterId;
+        Owner.findByPk(id)
+            .then(data => {
+                if (data) {
+                    res.status(200).send({
+                        code: 200,
+                        response: {
+                            message: "Success",
+                            data: data
+                        }
+                    });
+                } else {
+                    res.status(404).send({
+                        code: 404,
+                        response: {
+                            message: `Cannot find bill with id=${id}.`,
+                            data: null
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    code: 500,
+                    response: {
+                        message: "Error retrieving bill with id=" + id,
+                        data: err
+                    }
+                });
+            });
+    };
 };
