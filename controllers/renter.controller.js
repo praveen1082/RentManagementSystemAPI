@@ -69,5 +69,56 @@ exports.create = (req, res) => {
             }
         })
     })
-
+    exports.findAll = (req, res) => {
+        Renter.findAll().then(data => {
+            var dataList = data;
+            res.status(200).send({
+                code: 200,
+                response: {
+                    message: "Successfully fetched all renters",
+                    data: dataList
+                }
+            });
+        }).catch(err => {
+            res.status(500).send({
+                code: 500,
+                response: {
+                    code: 500,
+                    message: "Cannot fetch all renters"
+                }
+            })
+        })
+    }
+    exports.findOne = (req, res) => {
+        const id = req.params.renterId;
+        Renter.findByPk(id)
+            .then(data => {
+                if (data) {
+                    res.status(200).send({
+                        code: 200,
+                        response: {
+                            message: "Success",
+                            data: data
+                        }
+                    });
+                } else {
+                    res.status(404).send({
+                        code: 404,
+                        response: {
+                            message: `Cannot find user with id=${id}.`,
+                            data: null
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    code: 500,
+                    response: {
+                        message: "Error retrieving renter with id=" + id,
+                        data: err
+                    }
+                });
+            });
+    };
 };
