@@ -77,7 +77,7 @@ exports.update = (req, res) => {
     const id = req.params.userId;
     console.log(req.params.userId);
     User.update(req.body, {
-            where: { userId: id }
+            where: { id: id }
         })
         .then(num => {
             if (num == 1) {

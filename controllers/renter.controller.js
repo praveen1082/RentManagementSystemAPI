@@ -121,4 +121,39 @@ exports.create = (req, res) => {
                 });
             });
     };
+    exports.update = (req, res) => {
+        const id = req.params.renterId;
+        console.log(req.params.userId);
+        User.update(req.body, {
+                where: { userId: id }
+            })
+            .then(num => {
+                if (num == 1) {
+                    res.status(200).send({
+                        code: 200,
+                        response: {
+                            message: "Renter updated successfully",
+                        }
+                    });
+                } else {
+                    res.status(500).send({
+                        code: 500,
+                        response: {
+                            message: `Cannot update renter with id=${id}. Maybe renter was not found or req.body is empty!`,
+                            data: null
+                        }
+                    });
+
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    code: 500,
+                    response: {
+                        message: `Cannot update renter with id=${id}. Maybe renter was not found or req.body is empty!`,
+                        data: err
+                    }
+                });
+            });
+    };
 };
