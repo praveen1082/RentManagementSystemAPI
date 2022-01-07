@@ -77,91 +77,94 @@ exports.create = (req, res) => {
             }
         });
     })
-    exports.update = (req, res) => {
-        const id = req.params.ownerId;
-        // console.log(req.params.userId);
-        User.update(req.body, {
-                where: { id: id }
-            })
-            .then(num => {
-                if (num == 1) {
-                    res.status(200).send({
-                        code: 200,
-                        response: {
-                            message: "owner updated successfully",
-                        }
-                    });
-                } else {
-                    res.status(500).send({
-                        code: 500,
-                        response: {
-                            message: `Cannot update owner with id=${id}. Maybe owner was not found or req.body is empty!`,
-                            data: null
-                        }
-                    });
 
-                }
-            })
-            .catch(err => {
+
+
+};
+exports.update = (req, res) => {
+    const id = req.params.ownerId;
+    // console.log(req.params.userId);
+    User.update(req.body, {
+            where: { id: id }
+        })
+        .then(num => {
+            if (num == 1) {
+                res.status(200).send({
+                    code: 200,
+                    response: {
+                        message: "owner updated successfully",
+                    }
+                });
+            } else {
                 res.status(500).send({
                     code: 500,
                     response: {
                         message: `Cannot update owner with id=${id}. Maybe owner was not found or req.body is empty!`,
-                        data: err
+                        data: null
                     }
                 });
-            });
-    };
-    exports.findAll = (req, res) => {
-        Owner.findAll().then(data => {
-            var dataList = data;
-            res.status(200).send({
-                code: 200,
-                response: {
-                    message: "Successfully fetched all owners",
-                    data: dataList
-                }
-            });
-        }).catch(err => {
+
+            }
+        })
+        .catch(err => {
             res.status(500).send({
                 code: 500,
                 response: {
-                    code: 500,
-                    message: "Cannot fetch all owners"
+                    message: `Cannot update owner with id=${id}. Maybe owner was not found or req.body is empty!`,
+                    data: err
                 }
-            })
-        })
-    }
-    exports.findOne = (req, res) => {
-        const id = req.params.ownerId;
-        Owner.findByPk(id)
-            .then(data => {
-                if (data) {
-                    res.status(200).send({
-                        code: 200,
-                        response: {
-                            message: "Success",
-                            data: data
-                        }
-                    });
-                } else {
-                    res.status(404).send({
-                        code: 404,
-                        response: {
-                            message: `Cannot find owner with id=${id}.`,
-                            data: null
-                        }
-                    });
-                }
-            })
-            .catch(err => {
-                res.status(500).send({
-                    code: 500,
+            });
+        });
+};
+exports.findOne = (req, res) => {
+    const id = req.params.ownerId;
+    Owner.findByPk(id)
+        .then(data => {
+            if (data) {
+                res.status(200).send({
+                    code: 200,
                     response: {
-                        message: "Error retrieving owner with id=" + id,
-                        data: err
+                        message: "Success",
+                        data: data
                     }
                 });
+            } else {
+                res.status(404).send({
+                    code: 404,
+                    response: {
+                        message: `Cannot find owner with id=${id}.`,
+                        data: null
+                    }
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                code: 500,
+                response: {
+                    message: "Error retrieving owner with id=" + id,
+                    data: err
+                }
             });
-    };
+        });
 };
+exports.findAll = (req, res) => {
+    Owner.findAll().then(data => {
+        var dataList = data;
+        res.status(200).send({
+            code: 200,
+            response: {
+                message: "Successfully fetched all owners",
+                data: dataList
+            }
+        });
+    }).catch(err => {
+        res.status(500).send({
+            code: 500,
+            response: {
+                code: 500,
+                message: "Cannot fetch all owners"
+            }
+        })
+    })
+}

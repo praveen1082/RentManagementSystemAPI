@@ -34,36 +34,93 @@ exports.create = (req, res) => {
     }).catch(err => {
         return res.status(500).send({ code: 500, response: { message: "error while creating house", data: err } })
     })
-    exports.findOne = (req, res) => {
-        const id = req.params.homeId;
-        Home.findByPk(id)
-            .then(data => {
-                if (data) {
-                    res.status(200).send({
-                        code: 200,
-                        response: {
-                            message: "Success",
-                            data: data
-                        }
-                    });
-                } else {
-                    res.status(404).send({
-                        code: 404,
-                        response: {
-                            message: `Cannot find home with id=${id}.`,
-                            data: null
-                        }
-                    });
-                }
-            })
-            .catch(err => {
+
+
+};
+exports.update = (req, res) => {
+    const id = req.params.houseId;
+    // console.log(req.params.userId);
+    User.update(req.body, {
+            where: { id: id }
+        })
+        .then(num => {
+            if (num == 1) {
+                res.status(200).send({
+                    code: 200,
+                    response: {
+                        message: "house updated successfully",
+                    }
+                });
+            } else {
                 res.status(500).send({
                     code: 500,
                     response: {
-                        message: "Error retrieving home with id=" + id,
-                        data: err
+                        message: `Cannot update house with id=${id}. Maybe house was not found or req.body is empty!`,
+                        data: null
                     }
                 });
+
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                code: 500,
+                response: {
+                    message: `Cannot update house with id=${id}. Maybe house was not found or req.body is empty!`,
+                    data: err
+                }
             });
-    };
+        });
+};
+exports.findAll = (req, res) => {
+    Home.findAll().then(data => {
+        var dataList = data;
+        res.status(200).send({
+            code: 200,
+            response: {
+                message: "Successfully fetched all houses",
+                data: dataList
+            }
+        });
+    }).catch(err => {
+        res.status(500).send({
+            code: 500,
+            response: {
+                code: 500,
+                message: "Cannot fetch all houses"
+            }
+        })
+    })
+}
+exports.findOne = (req, res) => {
+    const id = req.params.homeId;
+    Home.findByPk(id)
+        .then(data => {
+            if (data) {
+                res.status(200).send({
+                    code: 200,
+                    response: {
+                        message: "Success",
+                        data: data
+                    }
+                });
+            } else {
+                res.status(404).send({
+                    code: 404,
+                    response: {
+                        message: `Cannot find home with id=${id}.`,
+                        data: null
+                    }
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                code: 500,
+                response: {
+                    message: "Error retrieving home with id=" + id,
+                    data: err
+                }
+            });
+        });
 };

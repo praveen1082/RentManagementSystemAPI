@@ -69,91 +69,92 @@ exports.create = (req, res) => {
             }
         })
     })
-    exports.findAll = (req, res) => {
-        Renter.findAll().then(data => {
-            var dataList = data;
-            res.status(200).send({
-                code: 200,
-                response: {
-                    message: "Successfully fetched all renters",
-                    data: dataList
-                }
-            });
-        }).catch(err => {
+
+};
+exports.findAll = (req, res) => {
+    Renter.findAll().then(data => {
+        var dataList = data;
+        res.status(200).send({
+            code: 200,
+            response: {
+                message: "Successfully fetched all renters",
+                data: dataList
+            }
+        });
+    }).catch(err => {
+        res.status(500).send({
+            code: 500,
+            response: {
+                code: 500,
+                message: "Cannot fetch all renters"
+            }
+        })
+    })
+}
+exports.findOne = (req, res) => {
+    const id = req.params.renterId;
+    Renter.findByPk(id)
+        .then(data => {
+            if (data) {
+                res.status(200).send({
+                    code: 200,
+                    response: {
+                        message: "Success",
+                        data: data
+                    }
+                });
+            } else {
+                res.status(404).send({
+                    code: 404,
+                    response: {
+                        message: `Cannot find user with id=${id}.`,
+                        data: null
+                    }
+                });
+            }
+        })
+        .catch(err => {
             res.status(500).send({
                 code: 500,
                 response: {
-                    code: 500,
-                    message: "Cannot fetch all renters"
+                    message: "Error retrieving renter with id=" + id,
+                    data: err
                 }
-            })
+            });
+        });
+};
+exports.update = (req, res) => {
+    const id = req.params.renterId;
+    // console.log(req.params.userId);
+    User.update(req.body, {
+            where: { id: id }
         })
-    }
-    exports.findOne = (req, res) => {
-        const id = req.params.renterId;
-        Renter.findByPk(id)
-            .then(data => {
-                if (data) {
-                    res.status(200).send({
-                        code: 200,
-                        response: {
-                            message: "Success",
-                            data: data
-                        }
-                    });
-                } else {
-                    res.status(404).send({
-                        code: 404,
-                        response: {
-                            message: `Cannot find user with id=${id}.`,
-                            data: null
-                        }
-                    });
-                }
-            })
-            .catch(err => {
-                res.status(500).send({
-                    code: 500,
+        .then(num => {
+            if (num == 1) {
+                res.status(200).send({
+                    code: 200,
                     response: {
-                        message: "Error retrieving renter with id=" + id,
-                        data: err
+                        message: "Renter updated successfully",
                     }
                 });
-            });
-    };
-    exports.update = (req, res) => {
-        const id = req.params.renterId;
-        console.log(req.params.userId);
-        User.update(req.body, {
-                where: { userId: id }
-            })
-            .then(num => {
-                if (num == 1) {
-                    res.status(200).send({
-                        code: 200,
-                        response: {
-                            message: "Renter updated successfully",
-                        }
-                    });
-                } else {
-                    res.status(500).send({
-                        code: 500,
-                        response: {
-                            message: `Cannot update renter with id=${id}. Maybe renter was not found or req.body is empty!`,
-                            data: null
-                        }
-                    });
-
-                }
-            })
-            .catch(err => {
+            } else {
                 res.status(500).send({
                     code: 500,
                     response: {
                         message: `Cannot update renter with id=${id}. Maybe renter was not found or req.body is empty!`,
-                        data: err
+                        data: null
                     }
                 });
+
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                code: 500,
+                response: {
+                    message: `Cannot update renter with id=${id}. Maybe renter was not found or req.body is empty!`,
+                    data: err
+                }
             });
-    };
+        });
 };
