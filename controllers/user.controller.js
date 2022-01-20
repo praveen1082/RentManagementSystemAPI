@@ -80,6 +80,32 @@ exports.findOne = (req, res) => {
             });
         });
 };
+exports.login = (req, res) => {
+    const email = req.params.email;
+    const password = req.params.password;
+    if (email.trim().isEmpty || email.isEmpty) {
+        return res.status(400).send({ message: "email is required" });
+    }
+    if (password.trim().isEmpty || password.isEmpty) {
+        return res.status(400).send({ message: "cannot login without password" })
+    }
+    User.findOne({ where: { email: email, password: password } })
+        .then(data => {
+            if (data) {
+                res.status(200).send({ code: 200, message: "Success" });
+            } else {
+                res.status(404).send({
+                    code: 404,
+                    message: `Cannot find user with id=${email}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving user with id=" + id
+            });
+        });
+};
 
 
 exports.update = (req, res) => {
