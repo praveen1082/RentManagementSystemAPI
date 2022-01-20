@@ -81,8 +81,8 @@ exports.findOne = (req, res) => {
         });
 };
 exports.login = (req, res) => {
-    const email = req.params.email;
-    const password = req.params.password;
+    const email = req.body.email;
+    const password = req.body.password;
     if (email.trim().isEmpty || email.isEmpty) {
         return res.status(400).send({ message: "email is required" });
     }

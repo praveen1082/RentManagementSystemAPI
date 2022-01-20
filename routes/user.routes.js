@@ -5,6 +5,6 @@ module.exports = app => {
     router.get('/', users.findAll);
     router.get('/:userId', users.findOne);
     router.put('/:userId', users.update);
-    router.post('/user/login', users.login);
+    router.post('/login', users.login);
     app.use('/api/user', router);
 }
