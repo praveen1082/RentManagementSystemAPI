@@ -3,6 +3,7 @@ const multer = require("multer");
 var path = require("path");
 const res = require("express/lib/response");
 const maxSize = 2 * 1024 * 1024;
+var namecontainer;
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -14,7 +15,8 @@ let storage = multer.diskStorage({
         // if (!userId) {
         //     res.status(400).send({ code: 400, message: "User Id is required to upload an image" })
         // }
-        cb(null, req.params.userId == null ? Date.now().toString() : Date.now().toString() + path.extname(file.originalname));
+        var name = Date.now();
+        cb(null, name + path.extname(file.originalname));
     },
 });
 // const maxSize = 2 * 1024 * 1024;
