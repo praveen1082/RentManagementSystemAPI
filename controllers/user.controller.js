@@ -47,7 +47,7 @@ exports.create = (req, res) => {
 
     };
     User.create(userobj).then(data => {
-        console.log(data.userId)
+        console.log(data.id)
             // if (userobj.isOwner) {
             //     const ownerObj = {
             //         noofHouse: req.body.noofHouse,
@@ -58,7 +58,7 @@ exports.create = (req, res) => {
             //         res.status(200).send({ code: 200, message: { "location": ownerdata.location, "isOwner": data.isOwner, "firstName": data.firstName, "email": data.email, "phone": data.phone } })
             //     })
             // }
-        res.status(200).send({ code: 200, message: "Successfully created data", data: { userId: data.userId, email: data.email } });
+        res.status(200).send({ code: 200, message: "Successfully created data", data: { userId: data.id, email: data.email } });
     }).catch(err => {
         res.status(500).send({ code: 500, message: err });
     })

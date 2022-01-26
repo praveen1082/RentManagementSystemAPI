@@ -27,24 +27,15 @@ exports.create = (req, res) => {
 
     };
     Owner.create(ownerObj).then(ownerdata => {
-        console.log(data.userId)
-            // if (userobj.isOwner) {
-            //     const ownerObj = {
-            //         noofHouse: req.body.noofHouse,
-            //         location: req.body.location,
-            //         userId: data.userId,
-            //     }
-            //     Owner.create(ownerObj).then(ownerdata => {
-            //         res.status(200).send({ code: 200, message: { "location": ownerdata.location, "isOwner": data.isOwner, "firstName": data.firstName, "email": data.email, "phone": data.phone } })
-            //     })
-            // }
+        //console.log(data.userId)
         User.findByPk(ownerdata.userId)
             .then(data => {
                 if (data) {
-                    User.update({ isOwner: true }).then(a => {
+                    var updateValues = { isOwner: true };
+                    User.update(updateValues, { where: { id: userId } }).then(a => {
                         res.status(200).send({ code: 200, message: "Successfully created owner", data: { userId: data.userId, email: data.email } });
                     }).catch(err => {
-                        res.status(500).send({ code: 500, message: err });
+                        res.status(500).send({ code: 500, message: "here.." });
                     })
 
                 } else {
@@ -56,11 +47,11 @@ exports.create = (req, res) => {
             })
             .catch(err => {
                 res.status(500).send({
-                    message: "Error retrieving user with id during owner creation=" + data.userId
+                    message: "Error retrieving user with id during owner creation=" + ownerdata.userId
                 });
             });
 
     }).catch(err => {
-        res.status(500).send({ code: 500, message: err });
+        res.status(500).send({ code: 500, message: "not found user with the given id" });
     })
 };
