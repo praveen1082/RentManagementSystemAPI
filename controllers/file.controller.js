@@ -1,6 +1,6 @@
 const uploadFile = require("../middleware/upload");
 
-const upload = async (req, res) => {
+const upload = async(req, res) => {
     try {
         await uploadFile(req, res);
 
@@ -27,7 +27,7 @@ const upload = async (req, res) => {
 const getListFiles = (req, res) => {
     const directoryPath = __basedir + "/resources/static/assets/uploads/";
 
-    fs.readdir(directoryPath, function (err, files) {
+    fs.readdir(directoryPath, function(err, files) {
         if (err) {
             res.status(500).send({
                 message: "Unable to scan files!",

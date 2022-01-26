@@ -1,7 +1,9 @@
 const { user } = require("../models");
 const db = require("../models");
 const User = db.user;
+const Owner = db.owner;
 const Op = db.Sequelize.Op;
+
 
 // Create and Save a new user
 exports.create = (req, res) => {
@@ -19,16 +21,44 @@ exports.create = (req, res) => {
     }
     if (!req.body.phone) {
         res.status(400).send({ code: 400, message: "phone is required" });
+        return;
     }
+    // if (req.body.isOwner) {
+    //     const ownerObj = {
+    //         noofHouse: req.body.noofHouse,
+    //         location: req.body.location,
+    //         userId: 
+    //     }
+    //     Owner.create(ownerObj).then(data => {
+    //         res.status(200).send({ code: 200, message: data })
+    //     }).catch(err => {
+    //         res.status(500).send({ code: 500, message: err })
+    //     })
+
+    // }
     const userobj = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         phone: req.body.phone,
         email: req.body.email,
+        image: req.body.image,
+        isOwner: false,
+        gender: req.body.gender
 
     };
     User.create(userobj).then(data => {
-        res.send(data);
+        console.log(data.userId)
+            // if (userobj.isOwner) {
+            //     const ownerObj = {
+            //         noofHouse: req.body.noofHouse,
+            //         location: req.body.location,
+            //         userId: data.userId,
+            //     }
+            //     Owner.create(ownerObj).then(ownerdata => {
+            //         res.status(200).send({ code: 200, message: { "location": ownerdata.location, "isOwner": data.isOwner, "firstName": data.firstName, "email": data.email, "phone": data.phone } })
+            //     })
+            // }
+        res.status(200).send({ code: 200, message: "Successfully created data", data: { userId: data.userId, email: data.email } });
     }).catch(err => {
         res.status(500).send({ code: 500, message: err });
     })
@@ -44,12 +74,12 @@ exports.findAll = (req, res) => {
         //     newList.add(userobj);
         // })
         res.status(200).send({
-            code: 200, message: dataList
+            code: 200,
+            message: dataList
         });
     }).catch(err => {
         res.status(500).send({ code: 500, message: "Cannot fetch all users from database" })
-    }
-    )
+    })
 }
 
 // Find a single user with an id
@@ -79,8 +109,8 @@ exports.update = (req, res) => {
     console.log(req.params.userId);
     // console.log(id.toString() + "????");
     User.update(req.body, {
-        where: { userId: id }
-    })
+            where: { userId: id }
+        })
         .then(num => {
             if (num == 1) {
                 res.send({
@@ -103,4 +133,3 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
 
 };
-

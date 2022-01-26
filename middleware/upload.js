@@ -16,7 +16,7 @@ let storage = multer.diskStorage({
         //     res.status(400).send({ code: 400, message: "User Id is required to upload an image" })
         // }
         var name = Date.now();
-        cb(null, name + path.extname(file.originalname));
+        cb(null, file.originalname);
     },
 });
 // const maxSize = 2 * 1024 * 1024;

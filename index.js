@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.json({ message: "Hello world" });
+    res.json({ message: "Hello world this is rent management system api" });
 })
 const db = require("./models");
 
@@ -19,6 +19,7 @@ db.sequelize.sync();
 //     console.log("Drop and re-sync db.");
 // });
 require("./routes/user.routes")(app);
+require("./routes/owner.route")(app);
 require("./routes/file.route")(app);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
