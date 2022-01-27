@@ -18,6 +18,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.user = require("./user.model.js")(sequelize, Sequelize);
-db.owner = require('./user.model')(sequelize, Sequelize)
+db.owner = require('./owner.model')(sequelize, Sequelize)
+db.Home = require('./home.model')(sequelize, Sequelize)
 
 module.exports = db;

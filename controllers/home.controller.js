@@ -1,7 +1,7 @@
 const { user } = require("../models");
 const db = require("../models");
 const User = db.user;
-const Owner = db.owner;
+const Home = db.Home;
 const Op = db.Sequelize.Op;
 
 
@@ -15,40 +15,37 @@ exports.create = (req, res) => {
         res.status(400).send({ code: 400, message: "userId  is required to create a owner" });
         return;
     }
-    if (!req.body.location) {
-        res.status(400).send({ code: 400, message: "location is required" });
-        return;
-    }
-
-    const ownerObj = {
-        noofHouse: req.body.noofHouse == null ? 1 : req.body.noofHouse,
-        location: req.body.location,
+    const homeObj = {
+        noofFloors: req.body.noofFloors == null ? 1 : req.body.noofFloors,
+        availableNumber: req.body.availableNumber,
+        ownerStays: req.body.ownerStays,
         userId: req.body.userId,
 
     };
-    Owner.create(ownerObj).then(ownerdata => {
+    Home.create(homeObj).then(homedata => {
         console.log(req.body.userId)
         User.findByPk(req.body.userId)
             .then(data => {
-                console.log(data);
+                console.log("working till here", data.isOwner);
                 if (data) {
-                    var updateValues = { isOwner: true };
-                    User.update(updateValues, { where: { id: req.body.userId } }).then(a => {
-                        res.status(200).send({ code: 200, message: "Successfully created owner", data: { userId: data.id, email: data.email } });
-                    }).catch(err => {
-                        res.status(500).send({ code: 500, message: "here.." });
-                    })
+                    console.log("<MMMMMMMMMMMMMMMMMMMMMMMM>")
+                    if (data.isOwner) {
+                        console.log("<MMMMMMMMMMMMMMMMMMMMMMMM>")
+                        return res.status(200).send({ code: 200, message: "Success", data: data });
+                    } else {
+                        return res.status(404).send({ code: 404, message: "only owners can have house" });
+                    }
 
                 } else {
                     res.status(404).send({
                         code: 404,
-                        message: `Cannot find user with id=${id}. unable to create owner`
+                        message: `Cannot find user with id=${id}. unable to create home`
                     });
                 }
             })
             .catch(err => {
                 res.status(500).send({
-                    message: "Error retrieving user with id during owner creation=" + req.body.userId
+                    message: err.message
                 });
             });
 
