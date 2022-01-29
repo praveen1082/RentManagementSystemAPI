@@ -3,7 +3,7 @@ module.exports = (sequelize, Sequelize) => {
         rentAmt: {
             type: Sequelize.INTEGER,
             default: 0,
-            nullable: false,
+            allowNull: false,
         },
         electricityInitialMeter: {
             type: Sequelize.INTEGER,

@@ -8,7 +8,7 @@ const Op = db.Sequelize.Op;
 // Create and Save a new user
 exports.create = (req, res) => {
     if (!req.body) {
-        res.status(400).send({ code: 400, message: "entire body cannot be empty, firstname,lastname,phone are required field" });
+        res.status(400).send({ code: 400, message: "entire body cannot be empty" });
         return;
     }
     if (!req.body.userId) {
@@ -24,7 +24,6 @@ exports.create = (req, res) => {
         noofHouse: req.body.noofHouse == null ? 1 : req.body.noofHouse,
         location: req.body.location,
         userId: req.body.userId,
-
     };
     Owner.create(ownerObj).then(ownerdata => {
         console.log(req.body.userId)

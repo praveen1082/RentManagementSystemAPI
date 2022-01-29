@@ -1,18 +1,15 @@
 module.exports = (sequelize, Sequelize) => {
-    const Home = sequelize.define("Home", {
+    const home = sequelize.define("home", {
         noofFloors: {
             type: Sequelize.INTEGER,
-            default: 1,
         },
         availableNumber: {
             type: Sequelize.INTEGER,
-            default: 1,
         },
         ownerStays: {
             type: Sequelize.BOOLEAN,
-            default: true,
         },
     });
 
-    return Home;
+    return home;
 };
