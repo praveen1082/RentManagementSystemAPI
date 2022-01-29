@@ -1,6 +1,5 @@
 const db = require("../models");
 const Renter = db.renter;
-const Owner = db.owner;
 const Bill = db.bill;
 
 exports.create = (req, res) => {
@@ -12,19 +11,30 @@ exports.create = (req, res) => {
         res.status(400).send({ code: 400, response: { message: "renterId  is required to create a owner", data: null } });
         return;
     }
-    if (!billFrom || !billTo) {
+    if (!req.body.billFrom || !req.body.billTo) {
         return res.status(400).send({ code: 400, response: { message: "Bill from and to are required fields", data: null } })
     }
 
     const billObj = {
         renterId: req.body.renterId,
-        billFrom: req.body.billFrom,
-        billTo: req.body.billTO,
+        billFrom: Date(req.body.billFrom),
+        billTo: Date(req.body.billTO),
     };
+    Renter.findByPk(req.body.renterId).then(data => {
+        if (data.dateOfEntry == null) {
+            Renter.update({ dateofEntry: req.body.billFrom }, { where: { id: req.body.renterId } }).then(data => {
+
+            }).catch(err => {
+                return res.status(404).send({ code: 404, response: { message: "cannot find renter with given id" } });
+            })
+        }
+    }).catch(err => {
+        res.status(404).send({ code: 404, response: { message: "Renter with given id was not found", data: err } })
+    })
     Bill.create(billObj).then(billdata => {
         Renter.findByPk(req.body.renterId).then(renterData => {
             if (renterData) {
-                return res.status(200).send({ code: 200, response: { message: "Successfully created renter", data: billdata } })
+                return res.status(200).send({ code: 200, response: { message: "Successfully created bill for the renter", data: billdata } })
             }
         }).catch(err => {
             return res.status(404).send({
@@ -36,6 +46,6 @@ exports.create = (req, res) => {
             })
         })
     }).catch(err => {
-        return res.status(500).send({ code: 500, response: { message: "error while creating house", data: err } })
+        return res.status(500).send({ code: 500, response: { message: "error while creating bill", data: err } })
     })
 };
