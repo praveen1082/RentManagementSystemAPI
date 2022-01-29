@@ -1,4 +1,3 @@
-const { user } = require("../models");
 const db = require("../models");
 const User = db.user;
 const Owner = db.owner;
@@ -42,7 +41,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    user.findAll().then(data => {
+    User.findAll().then(data => {
         var dataList = data;
         res.status(200).send({
             code: 200,

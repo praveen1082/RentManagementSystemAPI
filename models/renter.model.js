@@ -24,7 +24,14 @@ module.exports = (sequelize, Sequelize) => {
         },
         roomType: {
             type: Sequelize.STRING,
-        }
+        },
+        dateOfEntry: {
+            type: Sequelize.DATEONLY,
+        },
+        dateOfExit: {
+            type: Sequelize.DATEONLY,
+            defaultValue: null
+        },
 
     });
 

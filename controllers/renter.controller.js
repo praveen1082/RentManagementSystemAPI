@@ -2,10 +2,7 @@ const db = require("../models");
 const User = db.user;
 const Home = db.home;
 const Renter = db.renter;
-const Op = db.Sequelize.Op;
 
-
-// Create and Save a new user
 exports.create = (req, res) => {
     if (!req.body) {
         res.status(400).send({ code: 400, message: "entire body cannot be empty" });
