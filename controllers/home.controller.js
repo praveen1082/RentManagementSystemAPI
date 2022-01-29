@@ -19,12 +19,10 @@ exports.create = (req, res) => {
         noofFloors: req.body.noofFloors == null ? 1 : req.body.noofFloors,
         availableNumber: req.body.availableNumber,
         ownerStays: req.body.ownerStays,
-        userId: req.body.userId,
-
     };
     Home.create(homeObj).then(homedata => {
         console.log(req.body.userId)
-        User.findByPk(req.body.userId)
+        user.findByPk(req.body.userId)
             .then(data => {
                 console.log("working till here", data.isOwner);
                 if (data) {

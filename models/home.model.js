@@ -12,11 +12,6 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.BOOLEAN,
             default: true,
         },
-        userId: {
-            type: Sequelize.INTEGER,
-            nullable: false,
-        }
-
     });
 
     return Home;

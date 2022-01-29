@@ -9,11 +9,6 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             default: "Kathmandu"
         },
-        userId: {
-            type: Sequelize.INTEGER,
-            nullable: false,
-        }
-
     });
 
     return owner;
