@@ -95,7 +95,7 @@ exports.create = (req, res) => {
         return;
     }
     if (!req.body.renterId) {
-        res.status(400).send({ code: 400, response: { message: "renterId  is required to create a owner", data: null } });
+        res.status(400).send({ code: 400, response: { message: "renterId  is required to create a bill", data: null } });
         return;
     }
     if (!req.body.billFrom || !req.body.billTo) {
@@ -109,7 +109,7 @@ exports.create = (req, res) => {
     };
     Renter.findByPk(req.body.renterId).then(data => {
         if (data.dateOfEntry == null) {
-            Renter.update({ dateofEntry: req.body.billFrom }, { where: { id: req.body.renterId } }).then(data => {
+            Renter.update({ dateOfEntry: Date(req.body.billFrom) }, { where: { id: req.body.renterId } }).then(data => {
 
             }).catch(err => {
                 return res.status(404).send({ code: 404, response: { message: "cannot find renter with given id" } });
