@@ -1,11 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-var corsOptions = {
-    origin: "http://localhost:8081"
-};
+
 global.__basedir = __dirname;
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -14,10 +12,10 @@ app.get('/', (req, res) => {
 })
 const db = require("./models");
 
-// db.sequelize.sync();
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-});
+db.sequelize.sync();
+// db.sequelize.sync({ force: true }).then(() => {
+// console.log("Drop and re-sync db.");
+// });
 require("./routes/user.routes")(app);
 require("./routes/owner.route")(app);
 require("./routes/file.route")(app);
