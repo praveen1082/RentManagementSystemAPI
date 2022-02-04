@@ -92,7 +92,8 @@ exports.login = (req, res) => {
     User.findOne({ where: { email: email, password: password } })
         .then(data => {
             if (data) {
-                res.status(200).send({ code: 200, message: "Success" });
+
+                res.status(200).send({ code: 200, message: "Success", isOwner: data.isOwner });
             } else {
                 res.status(404).send({
                     code: 404,
