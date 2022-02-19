@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.json({ message: "Hello world this is rent management system api" });
+    res.json({ message: "Rent management system api" });
 })
 const db = require("./models");
 
